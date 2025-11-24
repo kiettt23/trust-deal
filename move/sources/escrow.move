@@ -15,7 +15,6 @@ module trustdeal::escrow {
     const STATUS_CANCELLED: u8 = 3;
 
     // --- ERRORS ---
-    const E_NOT_SELLER: u64 = 0;
     const E_NOT_BUYER: u64 = 1;
     const E_INVALID_STATUS: u64 = 2;
     const E_INSUFFICIENT_PAYMENT: u64 = 3;
