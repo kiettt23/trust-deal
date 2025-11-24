@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
+import { useCurrentAccount } from "@mysten/dapp-kit";
 import {
   Card,
   CardContent,
@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-slate-950 text-slate-100">
+    <main className="flex min-h-[calc(100vh-10rem)] flex-col items-center justify-center p-8  text-slate-100 relative z-10">
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center">
@@ -44,11 +44,6 @@ export default function Home() {
           <p className="text-slate-400">
             Nền tảng giao dịch đảm bảo P2P an toàn nhất.
           </p>
-        </div>
-
-        {/* Wallet Connect Section */}
-        <div className="flex justify-center">
-          <ConnectButton />
         </div>
 
         {/* Main Card */}

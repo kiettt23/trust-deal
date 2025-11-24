@@ -4,6 +4,7 @@ import { CONTRACT } from "@/contracts/config";
 import { toast } from "sonner";
 import { SuiObjectChangeCreated } from "@mysten/sui/client";
 import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
+import confetti from "canvas-confetti";
 
 export const useEscrow = () => {
   const { mutate: signAndExecute } = useSignAndExecuteTransaction();
@@ -36,6 +37,7 @@ export const useEscrow = () => {
 
             toast.dismiss();
             toast.success("Khởi tạo thành công! Đang chuyển hướng...");
+            confetti();
 
             if (txDetails.objectChanges) {
               const createdObject = txDetails.objectChanges.find(
@@ -119,6 +121,7 @@ export const useEscrow = () => {
           onSuccess: () => {
             toast.dismiss();
             toast.success("Giao dịch hoàn tất!");
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             if (onSuccess) onSuccess();
           },
           onError: (err) => toast.error(err.message),
