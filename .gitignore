@@ -1,0 +1,11 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
+# Node (Nếu em lỡ cài npm ở root)
+node_modules
+npm-debug.log
