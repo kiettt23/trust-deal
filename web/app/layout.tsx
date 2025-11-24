@@ -4,7 +4,6 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/Navbar";
-import { NetworkCheck } from "@/components/NetworkCheck";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,9 +30,6 @@ export default function RootLayout({
 
           {/* Header cố định */}
           <Navbar />
-
-          {/* Kiểm tra mạng */}
-          <NetworkCheck />
 
           {/* Nội dung chính (đẩy xuống 1 chút để ko bị Header che) */}
           <main className="relative z-10 pt-24 pb-10 px-4">{children}</main>

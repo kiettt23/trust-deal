@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useSuiClientQuery, useCurrentAccount } from "@mysten/dapp-kit";
@@ -34,7 +33,7 @@ export default function DealDetailPage() {
         <div className="absolute top-4 right-4">
           <Skeleton className="h-10 w-32 bg-slate-800 rounded-lg" />
         </div>
-        <Card className="w-full max-w-lg bg-slate-900 border-slate-800 shadow-xl">
+        <Card className="w-full max-w-lg bg-slate-900 border-slate-700 shadow-2xl">
           <CardHeader className="border-b border-slate-800 pb-4 space-y-2">
             <div className="flex justify-between items-center">
               <Skeleton className="h-6 w-32 bg-slate-800" />
@@ -70,7 +69,7 @@ export default function DealDetailPage() {
 
   // 3. Parse dữ liệu
   const fields =
-    data.data.content?.dataType === "moveObject"
+    data.data.content?.dataType === "moveObject" // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ? (data.data.content.fields as any)
       : null;
 
@@ -78,7 +77,7 @@ export default function DealDetailPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 text-slate-50 relative">
-      <Card className="w-full max-w-lg bg-slate-900 border-slate-800 text-slate-100 shadow-xl">
+      <Card className="w-full max-w-lg bg-slate-900 border-slate-700 shadow-2xl text-slate-100">
         <CardHeader className="border-b border-slate-800 pb-4">
           <div className="flex justify-between items-center">
             <CardTitle className="text-xl font-bold tracking-tight">
@@ -126,8 +125,8 @@ export default function DealDetailPage() {
               Giá trị Hợp đồng
             </p>
             <div className="text-5xl font-mono font-bold text-white tracking-tighter">
-              {fields.amount}{" "}
-              <span className="text-xl text-slate-500 font-normal">MIST</span>
+              {(Number(fields.amount) / 1_000_000_000).toFixed(2)}{" "}
+              <span className="text-xl text-slate-500 font-normal">SUI</span>
             </div>
           </div>
 
@@ -174,7 +173,8 @@ export default function DealDetailPage() {
                   }
                   disabled={!account}
                 >
-                  💸 Nạp {fields.amount} MIST để khóa kèo
+                  💸 Nạp {(Number(fields.amount) / 1_000_000_000).toFixed(2)}{" "}
+                  SUI để khóa kèo
                 </Button>
               </div>
             )}

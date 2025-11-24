@@ -1,14 +1,21 @@
 import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
-import { CONTRACT } from "@/contracts/config";
 import { toast } from "sonner";
 import { SuiObjectChangeCreated } from "@mysten/sui/client";
 import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
 import confetti from "canvas-confetti";
 
+// Get config from environment variables
+const PACKAGE_ID = process.env.NEXT_PUBLIC_PACKAGE_ID || "";
+const MODULE_NAME = process.env.NEXT_PUBLIC_MODULE_NAME || "escrow";
+const NETWORK = (process.env.NEXT_PUBLIC_SUI_NETWORK || "devnet") as
+  | "devnet"
+  | "testnet"
+  | "mainnet";
+
 export const useEscrow = () => {
   const { mutate: signAndExecute } = useSignAndExecuteTransaction();
-  const client = new SuiClient({ url: getFullnodeUrl("devnet") });
+  const client = new SuiClient({ url: getFullnodeUrl(NETWORK) });
 
   // Tạo Deal & Trả về Deal ID
   const createDeal = async (
@@ -18,7 +25,7 @@ export const useEscrow = () => {
     try {
       const tx = new Transaction();
       tx.moveCall({
-        target: `${CONTRACT.packageId}::${CONTRACT.module}::create_deal`,
+        target: `${PACKAGE_ID}::${MODULE_NAME}::create_deal`,
         arguments: [tx.pure.u64(price)],
       });
 
@@ -44,7 +51,7 @@ export const useEscrow = () => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (change: any) =>
                   change.type === "created" &&
-                  change.objectType.includes(`${CONTRACT.module}::Deal`)
+                  change.objectType.includes(`${MODULE_NAME}::Deal`)
               ) as SuiObjectChangeCreated | undefined;
 
               if (createdObject) {
@@ -79,7 +86,7 @@ export const useEscrow = () => {
       const [coin] = tx.splitCoins(tx.gas, [tx.pure.u64(amount)]);
 
       tx.moveCall({
-        target: `${CONTRACT.packageId}::${CONTRACT.module}::deposit`,
+        target: `${PACKAGE_ID}::${MODULE_NAME}::deposit`,
         arguments: [tx.object(dealId), coin],
       });
 
@@ -110,7 +117,7 @@ export const useEscrow = () => {
     try {
       const tx = new Transaction();
       tx.moveCall({
-        target: `${CONTRACT.packageId}::${CONTRACT.module}::confirm_delivery`,
+        target: `${PACKAGE_ID}::${MODULE_NAME}::confirm_delivery`,
         arguments: [tx.object(dealId)],
       });
 
@@ -138,7 +145,7 @@ export const useEscrow = () => {
     try {
       const tx = new Transaction();
       tx.moveCall({
-        target: `${CONTRACT.packageId}::${CONTRACT.module}::cancel_deal`,
+        target: `${PACKAGE_ID}::${MODULE_NAME}::cancel_deal`,
         arguments: [tx.object(dealId)],
       });
 

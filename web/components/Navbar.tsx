@@ -2,49 +2,116 @@
 
 import Link from "next/link";
 import { ConnectButton } from "@mysten/dapp-kit";
-import { PlusCircle, ShieldCheck } from "lucide-react";
+import {
+  PlusCircle,
+  ShieldCheck,
+  BarChart3,
+  Users,
+  User,
+  Menu,
+  X,
+} from "lucide-react";
 import { Button } from "./ui/button";
+import { useState } from "react";
 
 export function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { href: "/deals", label: "Giao Dịch", icon: Users },
+    { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
+    { href: "/profile", label: "Profile", icon: User },
+  ];
+
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 border-b border-slate-800 bg-slate-950/50 backdrop-blur-md z-50">
-      <div className="container mx-auto h-full px-4 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 border-b border-slate-800 bg-slate-950/95 backdrop-blur-md z-50">
+      <div className="container mx-auto h-16 px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
           <div className="h-8 w-8 bg-linear-to-tr from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-900/20 group-hover:scale-105 transition-transform">
             <ShieldCheck className="h-5 w-5" />
           </div>
-          <span className="font-bold text-lg tracking-tight text-slate-100">
+          <span className="font-bold text-lg tracking-tight text-slate-100 hidden sm:inline">
             Trust<span className="text-blue-500">Deal</span>
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
-          {/* Menu Actions */}
-          {/* Nút Tạo Deal Mới (Responsive Version) */}
-          <Link href="/">
+        {/* Desktop Nav - Centered - Only show on large screens */}
+        <nav className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+          {navLinks.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors"
+            >
+              <Icon className="h-4 w-4" />
+              <span>{label}</span>
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <Link href="/" className="hidden sm:block">
             <Button
-              variant="outline" // Có viền
               size="sm"
-              className="
-                gap-2 h-10 
-                bg-slate-900 border-slate-700 text-slate-300 
-                hover:bg-slate-800 hover:text-white hover:border-slate-600
-                transition-all duration-200
-                px-3 sm:px-4 // Padding nhỏ trên mobile, rộng hơn trên desktop
-              "
+              className="gap-2 h-10 bg-blue-600 hover:bg-blue-700 text-white"
             >
               <PlusCircle className="h-4 w-4" />
-
-              {/* [FIX] Ẩn chữ trên mobile (màn hình < 640px), hiện trên desktop */}
-              <span className="hidden sm:inline font-medium">Tạo Deal Mới</span>
+              <span>Tạo Deal</span>
             </Button>
           </Link>
-          <div id="wallet-btn-wrapper" className="flex items-center">
+
+          <div id="wallet-btn-wrapper" className="shrink-0">
             <ConnectButton />
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 hover:bg-slate-800 rounded-lg transition-colors shrink-0"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="h-5 w-5 text-slate-300" />
+            ) : (
+              <Menu className="h-5 w-5 text-slate-300" />
+            )}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden border-t border-slate-800 bg-slate-900 p-4 space-y-2">
+          {navLinks.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 text-sm text-slate-300 hover:text-slate-50 p-2 rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              <Icon className="h-4 w-4" />
+              <span>{label}</span>
+            </Link>
+          ))}
+          <div className="pt-2 border-t border-slate-800 mt-2">
+            <Link
+              href="/"
+              className="block w-full"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Button
+                size="sm"
+                className="w-full gap-2 bg-blue-600 hover:bg-blue-700"
+              >
+                <PlusCircle className="h-4 w-4" />
+                Tạo Deal Mới
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
