@@ -20,7 +20,8 @@ export const useEscrow = () => {
   // Tạo Deal & Trả về Deal ID
   const createDeal = async (
     price: number,
-    onSuccess?: (dealId: string) => void
+    onSuccess?: (dealId: string) => void,
+    onError?: () => void
   ) => {
     try {
       const tx = new Transaction();
@@ -60,18 +61,46 @@ export const useEscrow = () => {
               } else {
                 toast.error("Không tìm thấy Deal ID! Hãy kiểm tra console.");
                 console.log("Changes:", txDetails.objectChanges);
+                if (onError) onError();
               }
             }
           },
           onError: (error) => {
             toast.dismiss();
-            toast.error("Thất bại: " + error.message);
+
+            // Better error messages for common issues
+            const errorMsg = error.message.toLowerCase();
+            if (errorMsg.includes("zklogin") || errorMsg.includes("epoch")) {
+              toast.error(
+                "Lỗi ví: Vui lòng disconnect và reconnect lại ví của bạn",
+                {
+                  description:
+                    "Signature đã hết hạn. Thử reconnect wallet hoặc dùng Sui Wallet chính thức.",
+                }
+              );
+            } else if (
+              errorMsg.includes("rejected") ||
+              errorMsg.includes("user")
+            ) {
+              toast.error("Bạn đã từ chối giao dịch");
+            } else if (errorMsg.includes("insufficient")) {
+              toast.error("Không đủ SUI để trả gas fee", {
+                description: "Request thêm SUI từ faucet: sui client faucet",
+              });
+            } else {
+              toast.error("Thất bại: " + error.message);
+            }
+
+            console.error("Transaction error:", error);
+            if (onError) onError();
           },
         }
       );
     } catch (error) {
       console.error(error);
+      toast.dismiss();
       toast.error("Lỗi tạo transaction");
+      if (onError) onError();
     }
   };
 

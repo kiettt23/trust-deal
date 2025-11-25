@@ -122,22 +122,36 @@ export function ProfileClient({ userDeals, userStats }: ProfileClientProps) {
           </CardContent>
         </Card>
 
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           <StatsCard
             title="Deals Created"
             value={userStats.dealsCreated.toString()}
+            description="Giao dịch đã tạo"
             icon={<TrendingUp className="h-4 w-4" />}
             trend={12}
           />
           <StatsCard
             title="Deals Completed"
             value={userStats.dealsCompleted.toString()}
+            description="Hoàn thành"
             icon={<Award className="h-4 w-4" />}
             trend={8}
+            variant="success"
+          />
+          <StatsCard
+            title="Khối Lượng"
+            value={`${(Number(userStats.totalVolume) / 1_000_000_000).toFixed(
+              2
+            )} SUI`}
+            description="Tổng giá trị"
+            icon={<TrendingUp className="h-4 w-4" />}
+            trend={15}
+            variant="warning"
           />
           <StatsCard
             title="Trust Score"
             value={userStats.trustScore.toString()}
+            description={`${userStats.rating.toFixed(1)} ⭐ Rating`}
             icon={<Shield className="h-4 w-4" />}
             trend={5}
           />

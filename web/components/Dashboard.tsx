@@ -1,8 +1,12 @@
 "use client";
 
 import { DashboardClient } from "@/components/DashboardClient";
-import { getPlatformStats } from "@/app/actions/stats";
-import { getSuiClient, parseDealObject, ParsedDeal } from "@/lib/sui-client";
+import {
+  getSuiClient,
+  parseDealObject,
+  ParsedDeal,
+  DealStatus,
+} from "@/lib/sui-client";
 import { generateChartData } from "@/lib/chart-utils";
 import { useEffect, useState } from "react";
 import type { DealStats } from "@/hooks/useDealStats";
@@ -41,7 +45,31 @@ export function Dashboard() {
             .filter((deal): deal is ParsedDeal => deal !== null);
         }
 
-        const [platformStats] = await Promise.all([getPlatformStats()]);
+        // Calculate stats from actual deals instead of server action
+        const totalDeals = deals.length;
+        const completedDeals = deals.filter(
+          (d) => d.status === DealStatus.COMPLETED
+        ).length;
+
+        const totalVolumeNum = deals
+          .filter((d) => d.status === DealStatus.COMPLETED)
+          .reduce((sum, deal) => sum + parseInt(deal.amount), 0);
+
+        const successRate =
+          totalDeals > 0 ? (completedDeals / totalDeals) * 100 : 0;
+        const averageDealValue =
+          completedDeals > 0 ? Math.floor(totalVolumeNum / completedDeals) : 0;
+        const platformFee = Math.floor(totalVolumeNum * 0.01);
+
+        const platformStats: DealStats = {
+          totalDeals,
+          completedDeals,
+          totalVolume: BigInt(totalVolumeNum),
+          successRate: parseFloat(successRate.toFixed(1)),
+          averageDealValue: BigInt(averageDealValue),
+          platformFee: BigInt(platformFee),
+        };
+
         const charts = generateChartData(deals);
 
         setStats(platformStats);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { formatBigNumber, DealStats } from "@/hooks/useDealStats";
+import { formatMistToSui, DealStats } from "@/hooks/useDealStats";
 import { StatsCard } from "@/components/StatsCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -108,7 +108,7 @@ export function DashboardClient({
 
           <StatsCard
             title="Khối Lượng"
-            value={`${formatBigNumber(initialStats.totalVolume)} SUI`}
+            value={`${formatMistToSui(initialStats.totalVolume)} SUI`}
             description="Tổng giá trị giao dịch"
             icon={<TrendingUp className="h-4 w-4" />}
             trend={15}

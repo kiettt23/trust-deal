@@ -32,7 +32,7 @@ export default function RootLayout({
           <Navbar />
 
           {/* Nội dung chính (đẩy xuống 1 chút để ko bị Header che) */}
-          <main className="relative z-10 pt-24 pb-10 px-4">{children}</main>
+          <main className="relative z-10 pt-24 pb-10">{children}</main>
 
           <Toaster position="top-center" richColors />
         </Providers>

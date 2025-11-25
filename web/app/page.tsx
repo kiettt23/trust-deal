@@ -74,19 +74,32 @@ export default function Home() {
     setLoading(true);
     // Convert SUI to MIST (1 SUI = 1,000,000,000 MIST)
     const amountInMist = Math.floor(Number(price) * 1_000_000_000);
-    createDeal(amountInMist, (dealId) => {
+
+    try {
+      createDeal(
+        amountInMist,
+        (dealId) => {
+          setLoading(false);
+
+          // Save deal ID to localStorage for listing
+          const storedIds = localStorage.getItem("deal_ids");
+          const dealIds = storedIds ? JSON.parse(storedIds) : [];
+          if (!dealIds.includes(dealId)) {
+            dealIds.push(dealId);
+            localStorage.setItem("deal_ids", JSON.stringify(dealIds));
+          }
+
+          router.push(`/deal/${dealId}`);
+        },
+        // Error callback để reset loading state
+        () => {
+          setLoading(false);
+        }
+      );
+    } catch (error) {
+      console.error(error);
       setLoading(false);
-
-      // Save deal ID to localStorage for listing
-      const storedIds = localStorage.getItem("deal_ids");
-      const dealIds = storedIds ? JSON.parse(storedIds) : [];
-      if (!dealIds.includes(dealId)) {
-        dealIds.push(dealId);
-        localStorage.setItem("deal_ids", JSON.stringify(dealIds));
-      }
-
-      router.push(`/deal/${dealId}`);
-    });
+    }
   };
 
   return (
@@ -162,11 +175,11 @@ export default function Home() {
       </section>
 
       {/* Quick Create Deal Section - Nổi bật với lighter background */}
-      <section className="relative py-16 px-8 bg-slate-900/70 border-y border-slate-700/50">
+      <section className="relative py-16 bg-slate-900/70 border-y border-slate-700/50">
         {/* Subtle glow effect */}
         <div className="absolute inset-0 bg-linear-to-b from-blue-950/10 via-transparent to-purple-950/10 pointer-events-none" />
 
-        <div className="container mx-auto max-w-md relative z-10">
+        <div className="mx-auto max-w-md relative z-10 px-8">
           <Card className="bg-slate-900 border-slate-700 shadow-xl shadow-blue-900/10">
             <CardHeader>
               <CardTitle>Tạo Giao Dịch Mới</CardTitle>
@@ -227,7 +240,7 @@ export default function Home() {
       </section>
 
       {/* Features Section - Dark background with subtle pattern */}
-      <section className="py-20 px-8 bg-slate-950 border-y border-slate-800 relative">
+      <section className="py-20 bg-slate-950 border-y border-slate-800 relative">
         {/* Subtle grid pattern overlay */}
         <div
           className="absolute inset-0 opacity-30"
@@ -237,7 +250,7 @@ export default function Home() {
             backgroundSize: "40px 40px",
           }}
         />
-        <div className="container mx-auto max-w-6xl relative z-10">
+        <div className="container mx-auto max-w-6xl relative z-10 px-8">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl font-bold text-slate-50">
               Tại Sao Chọn TrustDeal?
@@ -274,14 +287,14 @@ export default function Home() {
       </section>
 
       {/* CTA Section - Gradient background */}
-      <section className="py-20 px-8 bg-linear-to-br from-blue-950 via-slate-900 to-purple-950 border-y border-slate-800 relative overflow-hidden">
+      <section className="py-20 bg-linear-to-br from-blue-950 via-slate-900 to-purple-950 border-y border-slate-800 relative overflow-hidden">
         {/* Animated gradient orbs */}
         <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-500/15 rounded-full blur-3xl animate-pulse" />
         <div
           className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-500/15 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         />
-        <div className="container mx-auto max-w-2xl text-center space-y-8 relative z-10">
+        <div className="mx-auto max-w-2xl text-center space-y-8 relative z-10 px-8">
           <div className="space-y-4">
             <h2 className="text-4xl font-bold text-slate-50">
               Sẵn sàng bắt đầu?
@@ -317,8 +330,8 @@ export default function Home() {
       </section>
 
       {/* Footer - Darkest section */}
-      <footer className="bg-slate-950 border-t border-slate-800 py-12 px-8">
-        <div className="container mx-auto max-w-6xl">
+      <footer className="bg-slate-950 border-t border-slate-800 py-12">
+        <div className="container mx-auto max-w-6xl px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <h3 className="font-bold text-slate-50 mb-4">TrustDeal</h3>

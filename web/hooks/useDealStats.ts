@@ -75,3 +75,20 @@ export const formatBigNumber = (
   }
   return num.toFixed(decimals);
 };
+
+// Helper để format MIST → SUI (1 SUI = 1,000,000,000 MIST)
+export const formatMistToSui = (
+  mist: bigint | number,
+  decimals: number = 2
+) => {
+  const mistNum = typeof mist === "bigint" ? Number(mist) : mist;
+  const sui = mistNum / 1_000_000_000; // Convert MIST to SUI
+
+  if (sui >= 1_000_000) {
+    return `${(sui / 1_000_000).toFixed(decimals)}M`;
+  }
+  if (sui >= 1_000) {
+    return `${(sui / 1_000).toFixed(decimals)}K`;
+  }
+  return sui.toFixed(decimals);
+};
