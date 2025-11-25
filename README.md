@@ -8,23 +8,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38bdf8?logo=tailwind-css)](https://tailwindcss.com)
 
-🚀 **Live Demo**: [Try TrustDeal](http://localhost:3000) | 📝 **Test Cases**: [View Test Suite](./TEST_CASES.md)
-
----
-
-## 📖 Table of Contents
-
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Smart Contract](#smart-contract)
-- [How It Works](#how-it-works)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
+🚀 **Live Demo**: [Try TrustDeal](https://trust-deal.vercel.app)
 
 ---
 
@@ -32,9 +16,9 @@
 
 **TrustDeal** is a production-ready decentralized escrow platform built on **Sui Blockchain** that eliminates the need for intermediaries in P2P transactions. Users can securely buy and sell with automatic fund protection using Move smart contracts.
 
-### 🎥 Demo
+### 🎥 Screenshot
 
-![TrustDeal Homepage](https://via.placeholder.com/800x400?text=TrustDeal+Homepage)
+![TrustDeal Homepage](web/public/home-screenshot.png)
 
 ### Problem & Solution
 
@@ -48,40 +32,26 @@
 
 ### 🔐 Security & Trust
 
-- ✅ **Smart Contract Escrow** - Funds automatically locked on Sui blockchain
-- ✅ **On-Chain Verification** - All transactions transparent and immutable
-- ✅ **Trust Scores** - User reputation based on deal history
-- ✅ **No Intermediaries** - Direct P2P with blockchain guarantees
+- **Smart Contract Escrow** - Funds automatically locked on Sui blockchain
+- **On-Chain Verification** - All transactions transparent and immutable
+- **Trust Scores** - User reputation based on deal history
+- **No Intermediaries** - Direct P2P with blockchain guarantees
 
 ### ⚡ Performance & UX
 
-- ✅ **Real-Time Dashboard** - Live analytics with Recharts visualizations
-- ✅ **Responsive Design** - Mobile-first, works on all devices
-- ✅ **Beautiful UI** - Shadcn UI + Tailwind CSS 4
-- ✅ **Instant Feedback** - Confetti animations, toast notifications
-- ✅ **Type-Safe** - Full TypeScript coverage
+- **Real-Time Dashboard** - Live analytics with Recharts visualizations
+- **Responsive Design** - Mobile-first, works on all devices
+- **Beautiful UI** - Shadcn UI + Tailwind CSS 4
+- **Instant Feedback** - Confetti animations, toast notifications
+- **Type-Safe** - Full TypeScript coverage
 
 ### 🛠️ Developer Experience
 
-- ✅ **Next.js 16** - App Router, Server Components, Server Actions
-- ✅ **Move Language** - Secure smart contracts on Sui
-- ✅ **@mysten/dapp-kit** - Official Sui wallet integration
-- ✅ **React Query** - Optimized data fetching with caching
+- **Next.js 16** - App Router, Server Components, Server Actions
+- **Move Language** - Secure smart contracts on Sui
+- **@mysten/dapp-kit** - Official Sui wallet integration
+- **React Query** - Optimized data fetching with caching
 - **Mobile Responsive** - Seamless experience on all devices
-
-### 📊 Analytics & Transparency
-
-- **Platform Stats** - Live volume, success rates, user counts
-- **User Profile** - Individual rating, history, trust score
-- **Transaction Timeline** - Track deal progress in real-time
-- **Leaderboard** - Top traders & most active users
-
-### 🎨 Developer Features
-
-- **Modern Stack** - Next.js 16 + React 19 + TypeScript
-- **Type Safe** - Full type safety with TypeScript & Zod
-- **Beautiful UI** - shadcn/ui + Tailwind CSS
-- **Blockchain Integration** - Sui dApp Kit + Move contracts
 
 ---
 
@@ -114,7 +84,7 @@
 
 - ✅ **Node.js 18+** - [Download](https://nodejs.org)
 - ✅ **npm or pnpm** - Package manager
-- ✅ **Sui Wallet** - [Install extension](https://chrome.google.com/webstore/detail/sui-wallet)
+- ✅ **Sui Wallet** - [Install extension](https://chromewebstore.google.com/detail/slush-%E2%80%94-a-sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil)
 - ✅ **Sui CLI** (optional) - For deploying contracts
 
 ### Installation (2 minutes)
@@ -128,14 +98,9 @@ cd trust-deal/web
 npm install
 
 # 3. Create environment file
-cp .env.local.example .env.local
+cp .env.example .env.local
 
-# 4. Add your deployed contract (or use existing)
-echo 'NEXT_PUBLIC_SUI_NETWORK=devnet' >> .env.local
-echo 'NEXT_PUBLIC_PACKAGE_ID=0x9399b5c...' >> .env.local
-echo 'NEXT_PUBLIC_MODULE_NAME=escrow' >> .env.local
-
-# 5. Run development server
+# 4. Run development server
 npm run dev
 
 # 🎉 Open http://localhost:3000
@@ -160,17 +125,17 @@ cd move
 sui client publish --gas-budget 100000000
 
 # Copy Package ID from output:
-# ✅ Published PackageID: 0x9399b5c...
+# ✅ Published PackageID: 0x...
 # Add to web/.env.local
 ```
 
 ### Configuration
 
-The application now fetches **REAL blockchain data** from Sui testnet/mainnet:
+The application now fetches **REAL blockchain data** from Sui devnet:
 
 1. **Deploy Contract**: Publish the Move smart contract to get a Package ID
 2. **Set Package ID**: Add `NEXT_PUBLIC_PACKAGE_ID` to `web/.env.local`
-3. **Connect Wallet**: Use Sui Wallet or Suiet to interact
+3. **Connect Wallet**: Use Slush Wallet or Suiet to interact
 4. **View Real Data**: All deals, stats, and transactions are fetched from blockchain
 
 **Note:** If no deals exist on-chain yet, the dashboard will show 0 stats until you create deals.
@@ -193,7 +158,7 @@ trust-deal/
     │   ├── dashboard/            # Analytics dashboard
     │   ├── profile/              # User profile
     │   ├── deal/[id]/            # Deal detail page
-    │   └── api/                  # API routes
+    │   └── actions/              # Server Actions
     │
     ├── components/
     │   ├── ui/                   # UI components
@@ -217,7 +182,7 @@ trust-deal/
 ### User Flow
 
 ```mermaid
-graph LR
+graph
     A[Seller Creates Deal] --> B[Smart Contract Deployed]
     B --> C[Buyer Deposits Funds]
     C --> D[Funds Locked in Escrow]
@@ -249,55 +214,6 @@ public entry fun confirm_delivery(deal: &mut Deal, ctx: &mut TxContext)
 
 // 4. Cancel Deal (Seller, only if STATUS_CREATED)
 public entry fun cancel_deal(deal: &mut Deal, ctx: &mut TxContext)
-```
-
----
-
-## 🧪 Testing
-
-### Run Test Suite
-
-```bash
-cd web
-npm test              # Run all tests
-npm run test:watch    # Watch mode
-npm run test:e2e      # End-to-end tests
-```
-
-### Manual Testing
-
-Follow the comprehensive test cases in [`TEST_CASES.md`](./TEST_CASES.md):
-
-- ✅ 29 test scenarios
-- ✅ Covers all user flows
-- ✅ Includes edge cases
-- ✅ Performance benchmarks
-
-**Quick Smoke Test** (5 minutes):
-
-1. Connect wallet → 2. Create deal → 3. View in /deals → 4. Check dashboard → ✅ Done!
-
----
-
-## 🔑 Environment Variables
-
-Create `web/.env.local`:
-
-```bash
-# Sui Network Configuration
-NEXT_PUBLIC_SUI_NETWORK=devnet        # Options: devnet | testnet | mainnet
-NEXT_PUBLIC_PACKAGE_ID=0x9399b5c...   # Your deployed contract address
-NEXT_PUBLIC_MODULE_NAME=escrow        # Module name (default: escrow)
-
-# Optional: Analytics
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX        # Google Analytics
-```
-
-**Important**: Get your Package ID by deploying the Move contract:
-
-```bash
-cd move
-sui client publish --gas-budget 100000000
 ```
 
 ---
@@ -442,51 +358,6 @@ sui client publish --gas-budget 100000000
 
 ---
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**1. "getAllDeals returns empty array"**
-
-- ✅ Solution: Create at least one deal via homepage
-- ✅ Deals are stored in localStorage
-- ✅ Clear localStorage and create new deals if needed
-
-**2. "Wallet not connecting"**
-
-- ✅ Install Sui Wallet extension
-- ✅ Switch to correct network (devnet/testnet)
-- ✅ Reload page
-
-**3. "Transaction fails"**
-
-- ✅ Check you have sufficient SUI balance
-- ✅ Get tokens from devnet faucet
-- ✅ Verify contract is published correctly
-
-**4. "Dashboard shows 0 stats"**
-
-- ✅ Create deals first
-- ✅ Check `localStorage.getItem("deal_ids")`
-- ✅ Verify deals exist on blockchain
-
-**5. "Profile page blank"**
-
-- ✅ Connect wallet first
-- ✅ Page auto-loads connected wallet's profile
-- ✅ No URL parameter needed anymore
-
----
-
-## 📈 Performance Metrics
-
-- ⚡ **Page Load**: < 2s (First Contentful Paint)
-- ⚡ **Time to Interactive**: < 3s
-- ⚡ **Lighthouse Score**: 90+ (Performance, Accessibility, SEO)
-- ⚡ **Bundle Size**: ~200KB (gzipped)
-
----
-
 ## 🛣️ Roadmap
 
 ### ✅ Completed (v1.0)
@@ -518,26 +389,6 @@ sui client publish --gas-budget 100000000
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for guidelines.
-
-```bash
-# Fork repository
-git clone https://github.com/your-username/trust-deal.git
-
-# Create feature branch
-git checkout -b feature/amazing-feature
-
-# Commit changes
-git commit -m "Add amazing feature"
-
-# Push and create PR
-git push origin feature/amazing-feature
-```
-
----
-
 ## 📄 License
 
 This project is licensed under the **MIT License** - see [LICENSE](./LICENSE) file.
@@ -553,32 +404,7 @@ This project is licensed under the **MIT License** - see [LICENSE](./LICENSE) fi
 
 ---
 
-## 📞 Support & Contact
-
-- 🐛 **Issues**: [GitHub Issues](https://github.com/kiettt23/trust-deal/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/kiettt23/trust-deal/discussions)
-- 📧 **Email**: support@trustdeal.com
-- 🐦 **Twitter**: [@TrustDealApp](https://twitter.com/trustdealapp)
-
----
-
-## 📸 Screenshots
-
-### Homepage
-
-![Homepage](https://via.placeholder.com/800x400?text=Homepage)
-
-### Dashboard
-
-![Dashboard](https://via.placeholder.com/800x400?text=Dashboard)
-
-### Deal Detail
-
-![Deal Detail](https://via.placeholder.com/800x400?text=Deal+Detail)
-
----
-
-**Built with ❤️ by the TrustDeal Team**
+**Built with ❤️ by the kiettt23**
 
 ⭐ **Star this repo** if you find it useful!
 
