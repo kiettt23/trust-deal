@@ -24,7 +24,7 @@ export function validateEnv() {
         .join("\n")}\n\n` +
         `Please set them in web/.env.local\n` +
         `Example:\n` +
-        `  NEXT_PUBLIC_SUI_NETWORK=devnet\n` +
+        `  NEXT_PUBLIC_SUI_NETWORK=testnet\n` +
         `  NEXT_PUBLIC_PACKAGE_ID=0x...`
     );
   }

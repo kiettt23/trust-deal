@@ -10,8 +10,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import "@mysten/dapp-kit/dist/index.css"; // Import CSS mặc định của ví
 
-// Cấu hình mạng Devnet
+// Cấu hình mạng
 const { networkConfig } = createNetworkConfig({
+  testnet: { url: getFullnodeUrl("testnet") },
   devnet: { url: getFullnodeUrl("devnet") },
 });
 
@@ -22,7 +23,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <SuiClientProvider
         networks={networkConfig}
-        defaultNetwork="devnet"
+        defaultNetwork="testnet"
         onNetworkChange={() => {}}
       >
         <WalletProvider autoConnect>{children}</WalletProvider>

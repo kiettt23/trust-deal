@@ -8,7 +8,7 @@ import confetti from "canvas-confetti";
 // Get config from environment variables
 const PACKAGE_ID = process.env.NEXT_PUBLIC_PACKAGE_ID || "";
 const MODULE_NAME = process.env.NEXT_PUBLIC_MODULE_NAME || "escrow";
-const NETWORK = (process.env.NEXT_PUBLIC_SUI_NETWORK || "devnet") as
+const NETWORK = (process.env.NEXT_PUBLIC_SUI_NETWORK || "testnet") as
   | "devnet"
   | "testnet"
   | "mainnet";

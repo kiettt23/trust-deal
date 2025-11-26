@@ -8,7 +8,7 @@ let suiClient: SuiClient | null = null;
 
 export function getSuiClient(): SuiClient {
   if (!suiClient) {
-    const network = (process.env.NEXT_PUBLIC_SUI_NETWORK || "devnet") as
+    const network = (process.env.NEXT_PUBLIC_SUI_NETWORK || "testnet") as
       | "testnet"
       | "mainnet"
       | "devnet";
