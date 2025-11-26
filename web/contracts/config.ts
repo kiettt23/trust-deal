@@ -1,6 +1,6 @@
 export const PACKAGE_ID =
   process.env.NEXT_PUBLIC_PACKAGE_ID ||
-  "0x9399b5c417840b324b9bddaf44c842f8ca324621bf751bc68ff2b29238018de1";
+  "0xda33a7c5e60650b2604e9ff0c791ab84d3a59a351a03953c111e886d54ae6b4d";
 
 export const MODULE_NAME = process.env.NEXT_PUBLIC_MODULE_NAME || "escrow";
 

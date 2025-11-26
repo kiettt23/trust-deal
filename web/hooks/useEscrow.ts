@@ -4,14 +4,10 @@ import { toast } from "sonner";
 import { SuiObjectChangeCreated } from "@mysten/sui/client";
 import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
 import confetti from "canvas-confetti";
+import { PACKAGE_ID, MODULE_NAME, SUI_NETWORK } from "@/contracts/config";
 
-// Get config from environment variables
-const PACKAGE_ID = process.env.NEXT_PUBLIC_PACKAGE_ID || "";
-const MODULE_NAME = process.env.NEXT_PUBLIC_MODULE_NAME || "escrow";
-const NETWORK = (process.env.NEXT_PUBLIC_SUI_NETWORK || "testnet") as
-  | "devnet"
-  | "testnet"
-  | "mainnet";
+// Network type
+const NETWORK = SUI_NETWORK as "devnet" | "testnet" | "mainnet";
 
 export const useEscrow = () => {
   const { mutate: signAndExecute } = useSignAndExecuteTransaction();

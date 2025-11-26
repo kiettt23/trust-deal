@@ -1,38 +1,16 @@
 /**
- * Environment Variable Validation
- * Validates required environment variables on app startup
+ * Environment Variable Configuration
+ * Uses defaults from config.ts if env vars not set
  */
 
-export function validateEnv() {
-  const required = {
-    NEXT_PUBLIC_SUI_NETWORK: process.env.NEXT_PUBLIC_SUI_NETWORK,
-    NEXT_PUBLIC_PACKAGE_ID: process.env.NEXT_PUBLIC_PACKAGE_ID,
-  };
+import { PACKAGE_ID, MODULE_NAME, SUI_NETWORK } from "@/contracts/config";
 
-  const missing: string[] = [];
-
-  for (const [key, value] of Object.entries(required)) {
-    if (!value || value === "YOUR_PACKAGE_ID_HERE") {
-      missing.push(key);
-    }
-  }
-
-  if (missing.length > 0) {
-    throw new Error(
-      `❌ Missing required environment variables:\n${missing
-        .map((k) => `  - ${k}`)
-        .join("\n")}\n\n` +
-        `Please set them in web/.env.local\n` +
-        `Example:\n` +
-        `  NEXT_PUBLIC_SUI_NETWORK=testnet\n` +
-        `  NEXT_PUBLIC_PACKAGE_ID=0x...`
-    );
-  }
-
-  return required as {
-    NEXT_PUBLIC_SUI_NETWORK: string;
-    NEXT_PUBLIC_PACKAGE_ID: string;
+export function getEnv() {
+  return {
+    NEXT_PUBLIC_SUI_NETWORK: process.env.NEXT_PUBLIC_SUI_NETWORK || SUI_NETWORK,
+    NEXT_PUBLIC_PACKAGE_ID: process.env.NEXT_PUBLIC_PACKAGE_ID || PACKAGE_ID,
+    NEXT_PUBLIC_MODULE_NAME: process.env.NEXT_PUBLIC_MODULE_NAME || MODULE_NAME,
   };
 }
 
-export const env = validateEnv();
+export const env = getEnv();

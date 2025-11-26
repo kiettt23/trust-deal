@@ -12,7 +12,16 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 import { useState } from "react";
+
+// Network badge configuration
+const NETWORK = process.env.NEXT_PUBLIC_SUI_NETWORK || "testnet";
+const networkConfig = {
+  testnet: { label: "Testnet", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
+  devnet: { label: "Devnet", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+  mainnet: { label: "Mainnet", color: "bg-green-500/20 text-green-400 border-green-500/30" },
+} as const;
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,15 +35,23 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 border-b border-slate-800 bg-slate-950/95 backdrop-blur-md z-50">
       <div className="container mx-auto h-16 px-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="h-8 w-8 bg-linear-to-tr from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-900/20 group-hover:scale-105 transition-transform">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <span className="font-bold text-lg tracking-tight text-slate-100 hidden sm:inline">
-            Trust<span className="text-blue-500">Deal</span>
-          </span>
-        </Link>
+        {/* Logo + Network Badge */}
+        <div className="flex items-center gap-2 shrink-0">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="h-8 w-8 bg-linear-to-tr from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-900/20 group-hover:scale-105 transition-transform">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <span className="font-bold text-lg tracking-tight text-slate-100 hidden sm:inline">
+              Trust<span className="text-blue-500">Deal</span>
+            </span>
+          </Link>
+          {/* Network Badge - hiển thị testnet/devnet/mainnet */}
+          <Badge 
+            className={`text-[10px] px-1.5 py-0.5 font-medium ${networkConfig[NETWORK as keyof typeof networkConfig]?.color || networkConfig.testnet.color}`}
+          >
+            {networkConfig[NETWORK as keyof typeof networkConfig]?.label || "Testnet"}
+          </Badge>
+        </div>
 
         {/* Desktop Nav - Centered - Only show on large screens */}
         <nav className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
