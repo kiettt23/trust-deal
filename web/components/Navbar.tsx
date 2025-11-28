@@ -2,25 +2,26 @@
 
 import Link from "next/link";
 import { ConnectButton } from "@mysten/dapp-kit";
-import {
-  PlusCircle,
-  ShieldCheck,
-  BarChart3,
-  Users,
-  User,
-  Menu,
-  X,
-} from "lucide-react";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { ShieldCheck, BarChart3, Users, User, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { CreateDealModal } from "./CreateDealModal";
+import { Badge } from "./ui/badge";
 
 // Network badge configuration
 const NETWORK = process.env.NEXT_PUBLIC_SUI_NETWORK || "testnet";
 const networkConfig = {
-  testnet: { label: "Testnet", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
-  devnet: { label: "Devnet", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
-  mainnet: { label: "Mainnet", color: "bg-green-500/20 text-green-400 border-green-500/30" },
+  testnet: {
+    label: "Testnet",
+    color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+  },
+  devnet: {
+    label: "Devnet",
+    color: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  },
+  mainnet: {
+    label: "Mainnet",
+    color: "bg-green-500/20 text-green-400 border-green-500/30",
+  },
 } as const;
 
 export function Navbar() {
@@ -46,10 +47,14 @@ export function Navbar() {
             </span>
           </Link>
           {/* Network Badge - hiển thị testnet/devnet/mainnet */}
-          <Badge 
-            className={`text-[10px] px-1.5 py-0.5 font-medium ${networkConfig[NETWORK as keyof typeof networkConfig]?.color || networkConfig.testnet.color}`}
+          <Badge
+            className={`text-[10px] px-1.5 py-0.5 font-medium ${
+              networkConfig[NETWORK as keyof typeof networkConfig]?.color ||
+              networkConfig.testnet.color
+            }`}
           >
-            {networkConfig[NETWORK as keyof typeof networkConfig]?.label || "Testnet"}
+            {networkConfig[NETWORK as keyof typeof networkConfig]?.label ||
+              "Testnet"}
           </Badge>
         </div>
 
@@ -69,15 +74,9 @@ export function Navbar() {
 
         {/* Right Side */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <Link href="/" className="hidden sm:block">
-            <Button
-              size="sm"
-              className="gap-2 h-10 bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              <PlusCircle className="h-4 w-4" />
-              <span>Tạo Deal</span>
-            </Button>
-          </Link>
+          <div className="hidden sm:block">
+            <CreateDealModal variant="desktop" />
+          </div>
 
           <div id="wallet-btn-wrapper" className="shrink-0">
             <ConnectButton />
@@ -113,19 +112,7 @@ export function Navbar() {
             </Link>
           ))}
           <div className="pt-2 border-t border-slate-800 mt-2">
-            <Link
-              href="/"
-              className="block w-full"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <Button
-                size="sm"
-                className="w-full gap-2 bg-blue-600 hover:bg-blue-700"
-              >
-                <PlusCircle className="h-4 w-4" />
-                Tạo Deal Mới
-              </Button>
-            </Link>
+            <CreateDealModal variant="mobile" />
           </div>
         </div>
       )}
