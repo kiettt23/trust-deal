@@ -28,6 +28,8 @@ export interface ParsedDeal {
   status: number;
   createdAt: number;
   description: string;
+  // Thêm field để sắp xếp theo thứ tự tạo
+  objectVersion?: string;
 }
 
 export function parseDealObject(obj: SuiObjectResponse): ParsedDeal | null {
@@ -40,6 +42,10 @@ export function parseDealObject(obj: SuiObjectResponse): ParsedDeal | null {
     const fields = obj.data.content.fields as Record<string, unknown>;
     if (!fields) return null;
 
+    // Lấy timestamp từ previousTransaction hoặc dùng version để sắp xếp
+    // Object version cao hơn = được tạo/update sau
+    const objectVersion = obj.data.version;
+
     return {
       id: obj.data.objectId,
       seller: (fields.seller as string) || "",
@@ -47,10 +53,11 @@ export function parseDealObject(obj: SuiObjectResponse): ParsedDeal | null {
       arbiter: (fields.arbiter as string) || "",
       amount: (fields.amount as string) || "0",
       status: parseInt((fields.status as string) || "0"),
-      createdAt: parseInt(
-        (fields.created_at as string) || Date.now().toString()
-      ),
+      // Sử dụng version làm createdAt vì contract không có field này
+      // Version cao hơn = mới hơn
+      createdAt: parseInt(objectVersion || "0"),
       description: (fields.description as string) || "",
+      objectVersion: objectVersion,
     };
   } catch (error) {
     console.error("Error parsing deal object:", error);

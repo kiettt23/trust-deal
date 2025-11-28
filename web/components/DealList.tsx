@@ -58,16 +58,27 @@ function formatAmount(amount: number) {
   return (amount / 1_000_000_000).toFixed(2);
 }
 
-function formatDate(date: Date) {
+function formatDate(date: Date, index?: number) {
+  // Nếu date không hợp lệ (vì createdAt chỉ là index), hiển thị # thứ tự
+  const timestamp = date.getTime();
+
+  // Nếu timestamp quá nhỏ (< năm 2020), nó là index không phải timestamp thực
+  if (timestamp < 1577836800000) {
+    // 2020-01-01
+    return `#${index !== undefined ? index + 1 : "N/A"}`;
+  }
+
   const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
+  const diffMs = now.getTime() - timestamp;
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
+  if (diffMins < 1) return "Vừa xong";
   if (diffMins < 60) return `${diffMins} phút trước`;
   if (diffHours < 24) return `${diffHours} giờ trước`;
-  return `${diffDays} ngày trước`;
+  if (diffDays < 30) return `${diffDays} ngày trước`;
+  return date.toLocaleDateString("vi-VN");
 }
 
 export function DealList({ deals }: DealListProps) {
@@ -83,7 +94,7 @@ export function DealList({ deals }: DealListProps) {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {deals.map((deal) => {
+      {deals.map((deal, index) => {
         const status = statusConfig[deal.status];
         const StatusIcon = status.icon;
 
@@ -99,7 +110,7 @@ export function DealList({ deals }: DealListProps) {
                     {formatAddress(deal.id)}
                   </CardTitle>
                   <p className="text-xs text-slate-500">
-                    {formatDate(deal.createdAt)}
+                    {formatDate(deal.createdAt, index)}
                   </p>
                 </div>
                 <Badge className={`gap-1 ${status.color}`}>

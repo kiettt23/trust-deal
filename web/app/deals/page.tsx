@@ -29,10 +29,19 @@ export default function DealsPage() {
 
           const parsedDeals = dealObjects
             .filter((obj): obj is NonNullable<typeof obj> => obj !== null)
-            .map((obj) => parseDealObject(obj))
+            .map((obj, index) => {
+              const deal = parseDealObject(obj);
+              if (deal) {
+                // Sử dụng index từ localStorage làm createdAt
+                // Index cao hơn = deal mới hơn (vì deal mới được push vào cuối array)
+                deal.createdAt = index;
+              }
+              return deal;
+            })
             .filter((deal): deal is ParsedDeal => deal !== null);
 
-          setDeals(parsedDeals);
+          // Đảo ngược để deal mới nhất lên đầu
+          setDeals(parsedDeals.reverse());
         }
       } catch (error) {
         console.error("Error loading deals:", error);
