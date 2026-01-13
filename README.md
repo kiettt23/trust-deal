@@ -21,7 +21,7 @@
 ### 🎥 Screenshot
 
 <p align="center">
-  <img src="web/public/home-screenshot.png" alt="TrustDeal Homepage" width="100%">
+  <img src="web/public/home-screenshot.png" alt="TrustDeal Homepage">
 </p>
 
 ### Problem & Solution
