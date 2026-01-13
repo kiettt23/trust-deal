@@ -1,4 +1,6 @@
-# TrustDeal 🤝 - Decentralized Escrow Platform
+# 🤝 TrustDeal - Decentralized Escrow Platform
+
+> 🏆 **Top 1 - SuiHub Discovery Mini-Hackathon** | Solo-built
 
 > **The Future of Secure P2P Transactions on Sui Blockchain**
 
@@ -18,13 +20,28 @@
 
 ### 🎥 Screenshot
 
-![TrustDeal Homepage](web/public/home-screenshot.png)
+<p align="center">
+  <img src="web/public/home-screenshot.png" alt="TrustDeal Homepage" width="100%">
+</p>
 
 ### Problem & Solution
 
 **Problem:** Traditional P2P transactions are risky - scams, chargebacks, trust issues.
 
 **Solution:** TrustDeal uses blockchain escrow to automatically hold and release funds based on smart contract logic.
+
+---
+
+## 🌟 Why This Project Stands Out
+
+| Aspect                   | Details                                              |
+| ------------------------ | ---------------------------------------------------- |
+| 🏆 **Achievement**       | Top 1 at SuiHub Discovery Mini-Hackathon             |
+| 👨‍💻 **Solo Development**  | Full-stack built entirely by one developer           |
+| 🔗 **Real Blockchain**   | Deployed on Sui Testnet with working smart contracts |
+| 🚀 **Production-Ready**  | Live demo, responsive UI, complete user flows        |
+| 📊 **Full-Stack Skills** | Move (Smart Contracts) + Next.js 16 + TypeScript     |
+| 🎨 **Modern UI/UX**      | Shadcn UI, Tailwind CSS, animations & charts         |
 
 ---
 
@@ -410,4 +427,4 @@ This project is licensed under the **MIT License** - see [LICENSE](./LICENSE) fi
 
 ---
 
-**Last Updated**: November 24, 2025 | **Version**: 1.0.0
+**Last Updated**: January 13, 2026 | **Version**: 1.1.0
